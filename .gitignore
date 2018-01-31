@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Created by .ignore support plugin (hsz.mobi)
 ### Maven template
 
@@ -39,3 +40,8 @@ hs_err_pid*
 .idea/
 out/
 target/
+=======
+*.class
+*.log
+.idea/
+>>>>>>> a2180a90748b95c2ce52bf57d8ff83dbc33ad750
