@@ -5,14 +5,17 @@ import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Reducer;
 
 import java.io.IOException;
-import java.util.*;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 public class CrimesReducer extends Reducer<Text, IntWritable, Text, IntWritable> {
 
     private Map<String, Integer> map;
 
-    public void reduce(Text key, Iterable<IntWritable> values, Context context) throws IOException, InterruptedException {
+    public void reduce(Text key, Iterable<IntWritable> values, Context context) {
         int sum = 0;
 
         for (IntWritable value : values) {
@@ -25,6 +28,7 @@ public class CrimesReducer extends Reducer<Text, IntWritable, Text, IntWritable>
     @Override
     protected void cleanup(Context context) throws IOException, InterruptedException {
         map = sortByValue(getMap());
+
         for (Map.Entry<String, Integer> entry : getMap().entrySet()) {
             context.write(new Text(entry.getKey()), new IntWritable(entry.getValue()));
         }

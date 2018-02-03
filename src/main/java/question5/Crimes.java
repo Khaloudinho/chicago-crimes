@@ -33,10 +33,6 @@ public class Crimes {
         job.setOutputKeyClass(Text.class);
         job.setOutputValueClass(IntWritable.class);
         System.exit(job.waitForCompletion(true) ? 0 : 1);
-        /*
-        String m = "January";
-        System.out.println(m.substring(0,2));
-        */
     }
 
 }
