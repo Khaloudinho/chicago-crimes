@@ -24,7 +24,7 @@ public class Crimes {
         Path outputPath = new Path(args[1]);
         outputPath.getFileSystem(conf).delete(outputPath, true);
 
-        Job job = Job.getInstance(conf, "Top 3 of the months most concerned by the cases of crimes");
+        Job job = Job.getInstance(conf, "Question 5 : top 3 of the months most concerned by the cases of crimes");
         job.setJarByClass(Crimes.class);
         FileInputFormat.addInputPath(job, inputPath);
         FileOutputFormat.setOutputPath(job, outputPath);

@@ -40,7 +40,7 @@
 <script>
 
     $(document).ready(function () {
-        $.get('../results/question1', function (data) {
+        $.get('../results/question5', function (data) {
             data = data.split("\r");
             var labels = [], values = [];
 
@@ -53,40 +53,25 @@
             var ctx = document.getElementById("canvas").getContext("2d");
             var barChartData = {
                 labels: labels,
-                datasets: []
+                datasets: [{
+                    backgroundColor: 'rgba(255, 99, 132, 0.0)',
+                    borderColor: ['rgba(255, 99, 132, 0.5)',],
+                    borderWidth: 5,
+                    data: values
+                }]
             };
 
-            function getRandom(min, max) {
-                return Math.floor(Math.random() * (max - min) + min);
-            }
-
-            for (var j = 0; j < labels.length; j++) {
-                var colors = ['rgba(255, 99, 132, 0.5)', 'rgba(54, 162, 235, 0.5)', 'rgba(255, 206, 86, 0.5)',
-                    'rgba(75, 192, 192, 0.5)', 'rgba(153, 102, 255, 0.5)', 'rgba(255, 159, 64, 0.5)', 'rgba(85, 109, 64, 0.5)',
-                    'rgba(199, 60, 35, 0.5)', 'rgba(255, 159, 124, 0.5)', 'rgba(225, 29, 175, 0.5)', 'rgba(98, 121, 84, 0.5)',
-                    'rgba(135, 179, 224, 0.5)', 'rgba(125, 129, 105, 0.5)', 'rgba(240, 100, 24, 0.5)'];
-                var randomColor = colors[j];
-                var newDataset = {
-                    label: labels[j],
-                    backgroundColor: randomColor,
-                    borderColor: randomColor,
-                    borderWidth: 1,
-                    data: [values[j]]
-                };
-                barChartData.datasets.push(newDataset);
-            }
-
             window.myBar = new Chart(ctx, {
-                type: 'bar',
+                type: 'line',
                 data: barChartData,
                 options: {
                     responsive: true,
                     legend: {
-                        position: 'left'
+                        display: false
                     },
                     title: {
                         display: true,
-                        text: 'Question 1 : the decreasing ranking of categories of crimes',
+                        text: 'Question 5 : top 3 of the months most concerned by the cases of crimes',
                         fontSize: 24,
                         fontColor: 'black'
                     }

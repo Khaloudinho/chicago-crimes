@@ -22,7 +22,7 @@ public class Crimes {
         Path outputPath = new Path(args[1]);
         outputPath.getFileSystem(conf).delete(outputPath, true);
 
-        Job job = Job.getInstance(conf, "The geographical distribution of crimes committed/elucidated (arrest)");
+        Job job = Job.getInstance(conf, "Question 4 : the geographical distribution of crimes committed/elucidated (arrest)");
         job.setJarByClass(Crimes.class);
         FileInputFormat.addInputPath(job, inputPath);
         FileOutputFormat.setOutputPath(job, outputPath);
