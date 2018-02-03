@@ -38,6 +38,7 @@ hs_err_pid*
 
 .idea/
 target/
+chicago-crimes.iml
 
 /out/question1/._SUCCESS.crc
 /out/question1/.part-r-00000.crc
