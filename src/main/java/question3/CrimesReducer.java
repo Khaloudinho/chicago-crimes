@@ -5,48 +5,34 @@ import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Reducer;
 
 import java.io.IOException;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.Map;
-import java.util.stream.Collectors;
 
-public class CrimesReducer extends Reducer<Text, IntWritable, Text, IntWritable> {
-
-    private Map<String, Integer> map;
-
-    private static <K, V extends Comparable<? super V>> Map<K, V> sortByValue(Map<K, V> map) {
-        return map.entrySet()
-                .stream()
-                .sorted(Map.Entry.comparingByValue(Collections.reverseOrder()))
-                .collect(Collectors.toMap(
-                        Map.Entry::getKey,
-                        Map.Entry::getValue,
-                        (e1, e2) -> e1,
-                        LinkedHashMap::new
-                ));
-    }
-
-    public void reduce(Text key, Iterable<IntWritable> values, Context context) {
-        int sum = 0;
-        for (IntWritable val : values) {
-            sum += val.get();
-        }
-        getMap().put(key.toString(), sum);
-    }
+public class CrimesReducer extends Reducer<IntWritable, Text, Text, IntWritable> {
 
     @Override
-    protected void cleanup(Context context) throws IOException, InterruptedException {
-        map = sortByValue(getMap());
-        for (Map.Entry<String, Integer> entry : getMap().entrySet()) {
-            context.write(new Text(entry.getKey()), new IntWritable(entry.getValue()));
+    protected void reduce(IntWritable key, Iterable<Text> values, Context context) throws IOException, InterruptedException {
+
+
+        Double mx = 0d;
+        Double my = 0d;
+        int counter = 0;
+
+        for (Text value : values) {
+            System.out.println("KEY : " + key + " - VALUE : " + value);
+
+            String[] temp = value.toString().split(", ");
+
+            mx += Double.parseDouble(temp[0]);
+            my += Double.parseDouble(temp[1]);
+            counter++;
         }
+
+        mx = mx / counter;
+        my = my / counter;
+
+        String centroid = "";
+        if (mx != 0d && my != 0d) centroid = mx + " " + my;
+
+        if (!centroid.isEmpty()) context.write(new Text(centroid), key);
     }
 
-    private Map<String, Integer> getMap() {
-        if (null == map) {
-            map = new HashMap<>();
-        }
-        return map;
-    }
 }

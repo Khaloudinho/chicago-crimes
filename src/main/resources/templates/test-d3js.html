@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Chart</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <style>
+        /* Chart.js */
+        @-webkit-keyframes chartjs-render-animation {
+            from {
+                opacity: 0.99
+            }
+            to {
+                opacity: 1
+            }
+        }
+
+        @keyframes chartjs-render-animation {
+            from {
+                opacity: 0.99
+            }
+            to {
+                opacity: 1
+            }
+        }
+
+        canvas {
+            -moz-user-select: none;
+            -webkit-user-select: none;
+            -ms-user-select: none;
+        }
+
+    </style>
+</head>
+
+<body>
+    <canvas id="canvas"></canvas>
+</body>
+
+<script>
+
+    $(document).ready(function () {
+        $.get('../results/question1', function (data) {
+            data = data.split("\r");
+            var labels = [], values = [];
+
+            for (var i = 0; i < data.length; i++) {
+                var line = data[i].replace(/\n/ig, '');
+                if (line.split("\t")[0].length > 1) labels.push(line.split("\t")[0]);
+                values.push(line.split("\t")[1]);
+            }
+
+            var ctx = document.getElementById("canvas").getContext("2d");
+            var barChartData = {
+                labels: labels,
+                datasets: []
+            };
+
+            function getRandom(min, max) {
+                return Math.floor(Math.random() * (max - min) + min);
+            }
+
+            for (var j = 0; j < labels.length; j++) {
+                var colors = ['rgba(255, 99, 132, 0.5)', 'rgba(54, 162, 235, 0.5)', 'rgba(255, 206, 86, 0.5)',
+                    'rgba(75, 192, 192, 0.5)', 'rgba(153, 102, 255, 0.5)', 'rgba(255, 159, 64, 0.5)', 'rgba(85, 109, 64, 0.5)',
+                    'rgba(199, 60, 35, 0.5)', 'rgba(255, 159, 124, 0.5)', 'rgba(225, 29, 175, 0.5)', 'rgba(98, 121, 84, 0.5)',
+                    'rgba(135, 179, 224, 0.5)', 'rgba(125, 129, 105, 0.5)', 'rgba(240, 100, 24, 0.5)'];
+                var randomColor = colors[j];
+                var newDataset = {
+                    label: labels[j],
+                    backgroundColor: randomColor,
+                    borderColor: randomColor,
+                    borderWidth: 1,
+                    data: [values[j]]
+                };
+                barChartData.datasets.push(newDataset);
+            }
+
+            window.myBar = new Chart(ctx, {
+                type: 'bar',
+                data: barChartData,
+                options: {
+                    responsive: true,
+                    legend: {
+                        position: 'left'
+                    },
+                    title: {
+                        display: true,
+                        text: 'Question 1 : the decreasing ranking of categories of crimes',
+                        fontSize: 24,
+                        fontColor: 'black'
+                    }
+                }
+            });
+        });
+
+    });
+
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.min.js"></script>
+
+</html>
