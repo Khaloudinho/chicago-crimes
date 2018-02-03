@@ -24,8 +24,10 @@ public class CrimesReducer extends Reducer<Text, IntWritable, Text, IntWritable>
     protected void cleanup(Context context) throws IOException, InterruptedException {
         map = sortByValue(getMap());
 
-        TreeMap<String, Integer> myNewMap = getMap().entrySet().stream().limit(3).
-                collect(TreeMap::new, (m, e) -> m.put(e.getKey(), e.getValue()), Map::putAll);
+        Map<String, Integer> myNewMap = getMap().entrySet().stream().limit(3).
+                collect(HashMap::new, (m, e) -> m.put(e.getKey(), e.getValue()), Map::putAll);
+
+        myNewMap = sortByValue(myNewMap);
 
         for (Map.Entry<String, Integer> entry : myNewMap.entrySet()) {
             context.write(new Text(entry.getKey()), new IntWritable(entry.getValue()));
