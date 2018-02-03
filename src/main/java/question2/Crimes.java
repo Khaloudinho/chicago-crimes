@@ -14,7 +14,7 @@ public class Crimes {
 
     public static void main(String[] args) throws IOException, ClassNotFoundException, InterruptedException {
         if (args.length != 2) {
-            System.err.println("Usage: question2.Crimes <input path> <output path>");
+            System.err.println("Usage: question5.Crimes <input path> <output path>");
             System.exit(-1);
         }
 

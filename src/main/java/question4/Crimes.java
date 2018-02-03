@@ -12,10 +12,9 @@ import java.io.IOException;
 
 public class Crimes {
 
-    public static void main(String[] args)
-            throws IOException, ClassNotFoundException, InterruptedException {
+    public static void main(String[] args) throws IOException, ClassNotFoundException, InterruptedException {
         if (args.length != 2) {
-            System.err.println("Usage: question1.Crimes <input path> <output path>");
+            System.err.println("Usage: question4.Crimes <input path> <output path>");
             System.exit(-1);
         }
 
@@ -24,14 +23,14 @@ public class Crimes {
         Path outputPath = new Path(args[1]);
         outputPath.getFileSystem(conf).delete(outputPath, true);
 
-        Job job = Job.getInstance(conf, "All the crimes categories in reversed order");
+        Job job = Job.getInstance(conf, "The geographical distribution of crimes committed/elucidated (arrest)");
         job.setJarByClass(Crimes.class);
         FileInputFormat.addInputPath(job, inputPath);
         FileOutputFormat.setOutputPath(job, outputPath);
         job.setMapperClass(CrimesMapper.class);
         job.setReducerClass(CrimesReducer.class);
         job.setOutputKeyClass(Text.class);
-        job.setOutputValueClass(IntWritable.class);
+        job.setOutputValueClass(Text.class);
         System.exit(job.waitForCompletion(true) ? 0 : 1);
     }
 

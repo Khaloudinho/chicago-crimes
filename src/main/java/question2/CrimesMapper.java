@@ -21,7 +21,7 @@ public class CrimesMapper extends Mapper<LongWritable, Text, Text, IntWritable> 
         String date = tokens[2].trim();
 
         String[] slots = {"0-4", "4-8", "8-12", "12-16", "16-20", "20-24"};
-        int occurences = 1, index = 0;
+        int number = 1, index = 0;
 
         DateFormat inFormat = new SimpleDateFormat( "MM/dd/yyyy hh:mm:ss aa"), outFormat = new SimpleDateFormat( "HH");
 
@@ -31,6 +31,6 @@ public class CrimesMapper extends Mapper<LongWritable, Text, Text, IntWritable> 
             e.printStackTrace();
         }
 
-        context.write(new Text(slots[index]), new IntWritable(occurences));
+        context.write(new Text(slots[index]), new IntWritable(number));
     }
 }

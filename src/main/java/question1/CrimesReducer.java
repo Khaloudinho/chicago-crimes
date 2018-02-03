@@ -22,7 +22,7 @@ public class CrimesReducer extends Reducer<Text, IntWritable, Text, IntWritable>
 
     @Override
     protected void cleanup(Context context) throws IOException, InterruptedException {
-       map = sortByValue(getMap());
+        map = sortByValue(getMap());
         for (Map.Entry<String, Integer> entry : getMap().entrySet()) {
             context.write(new Text(entry.getKey()), new IntWritable(entry.getValue()));
         }

@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # Created by .ignore support plugin (hsz.mobi)
 ### Maven template
 
@@ -38,10 +37,25 @@ buildNumber.properties
 hs_err_pid*
 
 .idea/
-out/
 target/
-=======
-*.class
-*.log
-.idea/
->>>>>>> a2180a90748b95c2ce52bf57d8ff83dbc33ad750
+
+/out/question1/._SUCCESS.crc
+/out/question1/.part-r-00000.crc
+/out/question1/_SUCCESS
+
+/out/question2/._SUCCESS.crc
+/out/question2/.part-r-00000.crc
+/out/question2/_SUCCESS
+
+/out/question3/._SUCCESS.crc
+/out/question3/.part-r-00000.crc
+/out/question3/_SUCCESS
+
+/out/question4/._SUCCESS.crc
+/out/question4/.part-r-00000.crc
+/out/question4/_SUCCESS
+
+/out/question5/._SUCCESS.crc
+/out/question5/.part-r-00000.crc
+/out/question5/_SUCCESS
+

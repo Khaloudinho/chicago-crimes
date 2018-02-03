@@ -12,8 +12,6 @@ import java.util.TreeSet;
 
 public class CrimesReducer extends Reducer<Text, IntWritable, Text, IntWritable> {
 
-    private Map<String, Integer> map;
-
     public void reduce(Text key, Iterable<IntWritable> values, Context context) throws IOException, InterruptedException {
         int sum = 0;
 
