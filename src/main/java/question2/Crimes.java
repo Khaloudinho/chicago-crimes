@@ -23,7 +23,7 @@ public class Crimes {
         Path outputPath = new Path(args[1]);
         outputPath.getFileSystem(conf).delete(outputPath, true);
 
-        Job job = Job.getInstance(conf, "The number of crimes according to 6 time slots (0-4, 4-8, 8-12, 12-16, 16-20, 20-24)");
+        Job job = Job.getInstance(conf, "Question 2 : the number of crimes according to 6 time slots (0-4, 4-8, 8-12, 12-16, 16-20, 20-24)");
         job.setJarByClass(Crimes.class);
         FileInputFormat.addInputPath(job, inputPath);
         FileOutputFormat.setOutputPath(job, outputPath);

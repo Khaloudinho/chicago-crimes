@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Chart</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <style>
+        /* Chart.js */
+        @-webkit-keyframes chartjs-render-animation {
+            from {
+                opacity: 0.99
+            }
+            to {
+                opacity: 1
+            }
+        }
+
+        @keyframes chartjs-render-animation {
+            from {
+                opacity: 0.99
+            }
+            to {
+                opacity: 1
+            }
+        }
+
+        canvas {
+            -moz-user-select: none;
+            -webkit-user-select: none;
+            -ms-user-select: none;
+        }
+
+    </style>
+</head>
+
+<body>
+    <canvas id="canvas"></canvas>
+</body>
+
+<script>
+
+    $(document).ready(function () {
+        $.get('../results/question2', function (data) {
+            data = data.split("\r");
+            var labels = [], values = [];
+
+            for (var i = 0; i < data.length; i++) {
+                var line = data[i].replace(/\n/ig, '');
+                if (line.split(", ")[0].length > 1) labels.push(line.split(", ")[0]);
+                values.push(line.split(", ")[1]);
+            }
+
+            var ctx = document.getElementById("canvas").getContext("2d");
+            var barChartData = {
+                labels: labels,
+                datasets: [{
+                    backgroundColor: ['rgba(255, 99, 132, 0.5)', 'rgba(54, 162, 235, 0.5)', 'rgba(255, 206, 86, 0.5)', 'rgba(75, 192, 192, 0.5)', 'rgba(153, 102, 255, 0.5)', 'rgba(120, 240, 96, 0.5)'],
+                    borderColor: ['rgba(255, 99, 132, 0.5)', 'rgba(54, 162, 235, 0.5)', 'rgba(255, 206, 86, 0.5)', 'rgba(75, 192, 192, 0.5)', 'rgba(153, 102, 255, 0.5)', 'rgba(120, 240, 96, 0.5)'],
+                    borderWidth: 1,
+                    data: values
+                }],
+            };
+
+            window.myBar = new Chart(ctx, {
+                type: 'doughnut',
+                data: barChartData,
+                options: {
+                    responsive: true,
+                    legend: {
+                        position: 'left'
+                    },
+                    title: {
+                        display: true,
+                        text: 'Question 2 : the number of crimes according to 6 time slots (0-4, 4-8, 8-12, 12-16, 16-20, 20-24)',
+                        fontSize: 24,
+                        fontColor: 'black'
+                    }
+                }
+            });
+        });
+
+    });
+
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.min.js"></script>
+
+</html>
