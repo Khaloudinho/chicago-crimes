@@ -14,7 +14,6 @@ buildNumber.properties
 !/.mvn/wrapper/maven-wrapper.jar
 ### Java template
 # Compiled class file
-*.class
 
 # Log file
 *.log
@@ -26,7 +25,6 @@ buildNumber.properties
 .mtj.tmp/
 
 # Package Files #
-*.jar
 *.war
 *.ear
 *.zip
@@ -59,4 +57,3 @@ chicago-crimes.iml
 /out/question5/._SUCCESS.crc
 /out/question5/.part-r-00000.crc
 /out/question5/_SUCCESS
-

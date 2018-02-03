@@ -29,12 +29,10 @@ public class CrimesReducer extends Reducer<Text, IntWritable, Text, IntWritable>
     protected void cleanup(Context context) throws IOException, InterruptedException {
         map = sortByValue(getMap());
 
-        Map<String, Integer> myNewMap = getMap().entrySet().stream().limit(3).
-                collect(HashMap::new, (m, e) -> m.put(e.getKey(), e.getValue()), Map::putAll);
+        int counter = 0;
 
-        myNewMap = sortByValue(myNewMap);
-
-        for (Map.Entry<String, Integer> entry : myNewMap.entrySet()) {
+        for (Map.Entry<String, Integer> entry : getMap().entrySet()) {
+            if (counter++ == 3) break;
             context.write(new Text(entry.getKey()), new IntWritable(entry.getValue()));
         }
     }
