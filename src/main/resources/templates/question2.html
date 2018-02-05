@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>Chart</title>
+    <title>Question 2</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <style>
         /* Chart.js */
@@ -30,10 +30,25 @@
             -ms-user-select: none;
         }
 
+        body {
+            font-family: Arial, serif;
+            text-align: center;
+        }
+
+        h1 {
+            color: black;
+        }
+
+        h3 {
+            color: red;
+        }
+
     </style>
 </head>
 
 <body>
+    <h1>Question 2 : the number of crimes according to 6 time slots (0-4, 4-8, 8-12, 12-16, 16-20, 20-24)</h1>
+    <h3>Click on a category of the legend to hide it from the graph</h3>
     <canvas id="canvas"></canvas>
 </body>
 
@@ -46,11 +61,12 @@
 
             for (var i = 0; i < data.length; i++) {
                 var line = data[i].replace(/\n/ig, '');
-                if (line.split(", ")[0].length > 1) labels.push(line.split(", ")[0]);
-                values.push(line.split(", ")[1]);
+                if (line.split("\t")[0] != null && line.split("\t")[0] !== '') labels.push(line.split("\t")[0]);
+                if (line.split("\t")[1] != null && line.split("\t")[1] !== '') values.push(line.split("\t")[1]);
             }
 
             var ctx = document.getElementById("canvas").getContext("2d");
+
             var barChartData = {
                 labels: labels,
                 datasets: [{
@@ -58,7 +74,7 @@
                     borderColor: ['rgba(255, 99, 132, 0.5)', 'rgba(54, 162, 235, 0.5)', 'rgba(255, 206, 86, 0.5)', 'rgba(75, 192, 192, 0.5)', 'rgba(153, 102, 255, 0.5)', 'rgba(120, 240, 96, 0.5)'],
                     borderWidth: 1,
                     data: values
-                }],
+                }]
             };
 
             window.myBar = new Chart(ctx, {
@@ -68,12 +84,6 @@
                     responsive: true,
                     legend: {
                         position: 'left'
-                    },
-                    title: {
-                        display: true,
-                        text: 'Question 2 : the number of crimes according to 6 time slots (0-4, 4-8, 8-12, 12-16, 16-20, 20-24)',
-                        fontSize: 24,
-                        fontColor: 'black'
                     }
                 }
             });

@@ -2,6 +2,7 @@ package question4;
 
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.Path;
+import org.apache.hadoop.io.IntWritable;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Job;
 import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;
@@ -29,7 +30,7 @@ public class Crimes {
         job.setMapperClass(CrimesMapper.class);
         job.setReducerClass(CrimesReducer.class);
         job.setOutputKeyClass(Text.class);
-        job.setOutputValueClass(Text.class);
+        job.setOutputValueClass(IntWritable.class);
         System.exit(job.waitForCompletion(true) ? 0 : 1);
     }
 

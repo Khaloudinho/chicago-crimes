@@ -38,6 +38,8 @@ hs_err_pid*
 target/
 chicago-crimes.iml
 
+data/Crimes-2001-present.csv
+
 /out/question1/._SUCCESS.crc
 /out/question1/.part-r-00000.crc
 /out/question1/_SUCCESS

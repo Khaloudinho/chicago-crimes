@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>Chart</title>
+    <title>Question 5</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <style>
         /* Chart.js */
@@ -30,10 +30,25 @@
             -ms-user-select: none;
         }
 
+        body {
+            font-family: Arial, serif;
+            text-align: center;
+        }
+
+        h1 {
+            color: black;
+        }
+
+        h3 {
+            color: red;
+        }
+
     </style>
 </head>
 
 <body>
+    <h1>Question 5 : top 3 of the months most concerned by the cases of crimes</h1>
+    <h3>Click on a category of the legend to hide it from the graph</h3>
     <canvas id="canvas"></canvas>
 </body>
 
@@ -45,22 +60,27 @@
             var labels = [], values = [];
 
             for (var i = 0; i < data.length; i++) {
-                var line = data[i].replace(/\n/ig, '');
-                if (line.split("\t")[0].length > 1) labels.push(line.split("\t")[0]);
-                values.push(line.split("\t")[1]);
+                var line = data[i].replace(/\n/ig, '').replace(" ", "");
+                if (line.split("\t")[0] != null && line.split("\t")[0] !== '') labels.push(line.split("\t")[0]);
+                if (line.split("\t")[1] != null && line.split("\t")[1] !== '') values.push(line.split("\t")[1]);
             }
-            console.log(values);
 
             var ctx = document.getElementById("canvas").getContext("2d");
+            var colors = ['rgba(255, 99, 132, 0.5)', 'rgba(54, 162, 235, 0.5)', 'rgba(255, 206, 86, 0.5)'];
+
             var barChartData = {
-                labels: labels,
-                datasets: [{
-                    backgroundColor: ['rgba(255, 99, 132, 0.5)', 'rgba(54, 162, 235, 0.5)', 'rgba(255, 206, 86, 0.5)', 'rgba(75, 192, 192, 0.5)', 'rgba(153, 102, 255, 0.5)'],
-                    borderColor: ['rgba(255, 99, 132, 0.5)', 'rgba(54, 162, 235, 0.5)', 'rgba(255, 206, 86, 0.5)', 'rgba(75, 192, 192, 0.5)', 'rgba(153, 102, 255, 0.5)'],
-                    borderWidth: 1,
-                    data: values
-                }]
+                datasets: []
             };
+
+            for (i = 0; i < labels.length; i++) {
+                barChartData.datasets.push({
+                    label: [labels[i]],
+                    backgroundColor: colors[i],
+                    borderColor: colors[i],
+                    borderWidth: 1,
+                    data: [values[i]]
+                });
+            }
 
             window.myBar = new Chart(ctx, {
                 type: 'horizontalBar',
@@ -68,13 +88,7 @@
                 options: {
                     responsive: true,
                     legend: {
-                        display: false
-                    },
-                    title: {
-                        display: true,
-                        text: 'Question 5 : top 3 of the months most concerned by the cases of crimes',
-                        fontSize: 24,
-                        fontColor: 'black'
+                        display: true
                     }
                 }
             });

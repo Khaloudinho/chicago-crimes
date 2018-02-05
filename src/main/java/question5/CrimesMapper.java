@@ -14,12 +14,13 @@ public class CrimesMapper extends Mapper<LongWritable, Text, Text, IntWritable> 
 
         String monthNumber = tokens[2].substring(0, 2);
 
-        String[] months = {"January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "December"};
+        String[] months = {"JANUARY", "FEBRUARY", "MARCH", "APRIL", "MAY", "JUNE", "JULY", "AUGUST", "SEPTEMBER",
+                "OCTOBER", "NOVEMBER", "DECEMBER"};
 
         int index = 0, number = 1;
 
         if (monthNumber.matches("[0-9]{2}")) index = Integer.parseInt(monthNumber.trim()) - 1;
 
-        context.write(new Text(months[index].toUpperCase()), new IntWritable(number));
+        context.write(new Text(months[index]), new IntWritable(number));
     }
 }

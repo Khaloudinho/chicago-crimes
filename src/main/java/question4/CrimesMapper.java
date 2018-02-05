@@ -1,12 +1,13 @@
 package question4;
 
+import org.apache.hadoop.io.IntWritable;
 import org.apache.hadoop.io.LongWritable;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Mapper;
 
 import java.io.IOException;
 
-public class CrimesMapper extends Mapper<LongWritable, Text, Text, Text> {
+public class CrimesMapper extends Mapper<LongWritable, Text, Text, IntWritable> {
     public void map(LongWritable key, Text value, Context context) throws IOException, InterruptedException {
 
         String[] tokens = value.toString().split(",");
@@ -17,8 +18,10 @@ public class CrimesMapper extends Mapper<LongWritable, Text, Text, Text> {
 
         String arrest = tokens[tokens.length - 15].toLowerCase().trim();
 
+        int number = 1;
+
         if (latitude.matches(regexLocation) && longitude.matches(regexLocation) && arrest.matches(regexBoolean)) {
-            context.write(new Text(latitude.concat(", " + longitude)), new Text(arrest));
+            context.write(new Text(latitude.concat("," + longitude + "_" + arrest)), new IntWritable(number));
         }
     }
 }
