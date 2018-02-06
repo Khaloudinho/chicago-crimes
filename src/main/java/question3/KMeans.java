@@ -5,7 +5,6 @@ import org.apache.hadoop.fs.FSDataInputStream;
 import org.apache.hadoop.fs.FSDataOutputStream;
 import org.apache.hadoop.fs.FileSystem;
 import org.apache.hadoop.fs.Path;
-import org.apache.hadoop.io.IntWritable;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Job;
 import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;
@@ -15,8 +14,23 @@ import org.apache.hadoop.util.GenericOptionsParser;
 import java.io.*;
 import java.util.List;
 
+/**
+ * Created with IntelliJ IDEA.
+ * User: andrea
+ * Date: 24/04/14
+ * Time: 13.58
+ */
 public class KMeans {
 
+    /*
+        1) Calculer les centroïdes à partir des points
+        2) Calculer la distance entre chaque point et chaque centroïde pour assigner l'index du plus proche au point <x,y_index>
+        3) Pour chaque index, on calcule la somme des occurences
+        4) Trier en décroissant -> prendre les 3 plus grosses sommes
+        5) Trier en croissant -> prendre les 3 plus petites sommes
+        6) Tracer les 6 cercles sur Google Maps grâce à l'objet Circle
+        7) Finally done :-) !
+     */
     public static void main(String[] args) throws Exception {
 
         Configuration configuration = new Configuration();
@@ -39,6 +53,7 @@ public class KMeans {
         boolean hasConverged = false;
         int iteration = 0;
         do {
+
             configuration.set(Constants.OUTPUT_FILE_ARG, otherArgs[1] + "-" + iteration);
 
             // executes hadoop job
@@ -84,10 +99,10 @@ public class KMeans {
         job.setJobName("KMeans");
         job.setJarByClass(KMeans.class);
 
-        job.setMapperClass(CrimesMapper.class);
-        job.setReducerClass(CrimesReducer.class);
+        job.setMapperClass(KMeansMapper.class);
+        job.setReducerClass(KMeansReducer.class);
 
-        job.setMapOutputKeyClass(IntWritable.class);
+        job.setMapOutputKeyClass(Text.class);
         job.setMapOutputValueClass(Text.class);
 
         job.setNumReduceTasks(1);
@@ -96,6 +111,8 @@ public class KMeans {
 
         FileInputFormat.addInputPath(job, new Path(configuration.get(Constants.INPUT_FILE_ARG)));
         FileOutputFormat.setOutputPath(job, new Path(configuration.get(Constants.OUTPUT_FILE_ARG)));
+        FileOutputFormat.getOutputPath(job).getFileSystem(configuration).delete(
+                new Path(configuration.get(Constants.OUTPUT_FILE_ARG)), true);
 
         return job.waitForCompletion(true);
     }
@@ -104,10 +121,14 @@ public class KMeans {
 
         FileSystem fs = FileSystem.get(configuration);
 
-        FSDataOutputStream dataOutputStream = fs.create(new Path(configuration.get(Constants.OUTPUT_FILE_ARG) + "/final-data"));
-        FSDataInputStream dataInputStream = new FSDataInputStream(fs.open(new Path("src/main/resources/kmeans/points.dat")));
+        FSDataOutputStream dataOutputStream = fs.create(
+                new Path(configuration.get(Constants.OUTPUT_FILE_ARG) + "/final-data"));
 
-        try (BufferedReader reader = new BufferedReader(new InputStreamReader(dataInputStream)); BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(dataOutputStream))) {
+        FSDataInputStream dataInputStream = new FSDataInputStream(fs.open(
+                new Path(Constants.RESOURCE_FILE + "/points.dat")));
+
+        try (BufferedReader reader = new BufferedReader(new InputStreamReader(dataInputStream));
+             BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(dataOutputStream))) {
 
             String line;
             while ((line = reader.readLine()) != null) {
@@ -118,10 +139,12 @@ public class KMeans {
                 int index = 0;
                 double minDistance = Double.MAX_VALUE;
                 for (int j = 0; j < centroids.size(); j++) {
-                    double distance = Utils.euclideanDistance(centroids.get(j)[0], centroids.get(j)[1], x, y);
-                    if (distance < minDistance) {
-                        index = j;
-                        minDistance = distance;
+                    if (x != 0.0d && y != 0.0d) {
+                        double distance = Utils.euclideanDistance(centroids.get(j)[0], centroids.get(j)[1], x, y);
+                        if (distance < minDistance) {
+                            index = j;
+                            minDistance = distance;
+                        }
                     }
                 }
 

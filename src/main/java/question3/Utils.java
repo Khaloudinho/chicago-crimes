@@ -10,6 +10,12 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Created with IntelliJ IDEA.
+ * User: andrea
+ * Date: 03/05/14
+ * Time: 0.09
+ */
 public class Utils {
 
     public static List<Double[]> readCentroids(String filename) throws IOException {
@@ -28,7 +34,7 @@ public class Utils {
         String line;
         try {
             while ((line = reader.readLine()) != null) {
-                String[] values = line.split("\t");
+                String[] values = line.split(",");
                 String[] temp = values[0].split(" ");
                 Double[] centroid = new Double[2];
                 centroid[0] = Double.parseDouble(temp[0]);
@@ -89,7 +95,7 @@ public class Utils {
 
     public static String readReducerOutput(Configuration configuration) throws IOException {
         FileSystem fs = FileSystem.get(configuration);
-        FSDataInputStream dataInputStream = new FSDataInputStream(fs.open(new Path(configuration.get(Constants.OUTPUT_FILE_ARG) + "/part-r-00000")));
+        FSDataInputStream dataInputStream = new FSDataInputStream(fs.open(new Path(Constants.RESOURCE_FILE + "/points.dat")));
         BufferedReader reader = new BufferedReader(new InputStreamReader(dataInputStream));
         StringBuilder content = new StringBuilder();
         String line;
