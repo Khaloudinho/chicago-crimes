@@ -19,4 +19,4 @@
 ``` hadoop jar target\chicago-crimes-1.0-SNAPSHOT.jar questionX.Crimes data\Crimes-2001-present.csv out\questionX ```
 
 # Comment
-- I do not own the code of the k-means used in the package ``` question3 ```. All right reserved to Andrea Iacono for more informations you can go through the following page : https://github.com/andreaiacono/MapReduce/tree/master/src/main/java/samples/kmeans
+- I do not own the code of the k-means used in the package ``` question3 ```. All rights reserved to Andrea Iacono for more informations you can go through the following page : https://github.com/andreaiacono/MapReduce/tree/master/src/main/java/samples/kmeans
