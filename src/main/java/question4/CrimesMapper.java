@@ -12,7 +12,7 @@ public class CrimesMapper extends Mapper<LongWritable, Text, Text, IntWritable> 
 
         String[] tokens = value.toString().split(",");
 
-        String regexLocation = "^(\\-?\\d+(\\.\\d+)?)", regexBoolean = "true|false";
+        String regexLocation = "^-?\\d+\\.\\d+$", regexBoolean = "true|false";
 
         String latitude = tokens[tokens.length - 4].trim(), longitude = tokens[tokens.length - 3].trim();
 

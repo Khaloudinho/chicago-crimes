@@ -40,54 +40,48 @@
 </h3>
 
 <div id="map"></div>
-
 <script>
-    var labels = [], values = [], markerLabels = [];
+    var labels = [], values = [];
 
     $(document).ready(function () {
-        $.get('../results/question4', function (data) {
+        $.get('../results/question3', function (data) {
             data = data.split(/\n/ig);
 
             for (var i = 0; i < data.length; i++) {
                 var line = data[i].replace(/\n/ig, '');
-                if (line.split("_")[0] != null && line.split("_")[0] !== '') labels.push(line.split("_")[0]);
-                if (line.split("_")[1] != null) {
-                    if (line.split("_")[1].includes("false")) values.push("false");
-                    if (line.split("_")[1].includes("true")) values.push("true");
-                }
-                if (line.split("\t")[1] != null) {
-                    markerLabels.push(line.split("\t")[1]);
-                }
+                var index = line.split("[")[0], coord = line.split("[")[1];
+                if (index != null && index !== '') labels.push(index.substring(0, index.length - 1));
+                if (coord != null && coord !== '') values.push(coord.substring(0, coord.lastIndexOf("]") - 1));
             }
         });
     });
 
     function initialize() {
-        var markers = [];
+        var circles = [];
 
         var map = new google.maps.Map(document.getElementById('map'), {
-            zoom: 10,
+            zoom: 11,
             center: {lat: 41.881832, lng: -87.623177}
         });
 
         for (var i = 0; i < labels.length; i++) {
-            var pos = new google.maps.LatLng(labels[i].split(",")[0], labels[i].split(",")[1]);
 
-            var icon = {
-                url: "",
-                scaledSize: new google.maps.Size(35, 55)
-            };
+            var pos = new google.maps.LatLng(values[i].split(", ")[0], values[i].split(", ")[1]);
 
-            if (values[i].includes("true")) icon.url = 'https://raw.githubusercontent.com/Concept211/Google-Maps-Markers/master/images/marker_green'
-                + markerLabels[i] + '.png';
-            if (values[i].includes("false")) icon.url = 'https://raw.githubusercontent.com/Concept211/Google-Maps-Markers/master/images/marker_red'
-                + markerLabels[i] + '.png';
+            var color = '';
 
-            markers[i] = new google.maps.Marker({
-                position: pos,
+            if (i < 3) color = '#FF0000';
+            else color = '#32CD32';
+
+            circles[i] = new google.maps.Circle({
+                strokeColor: color,
+                strokeOpacity: 0.8,
+                strokeWeight: 2,
+                fillColor: color,
+                fillOpacity: 0.35,
                 map: map,
-                id: i,
-                icon: icon
+                center: pos,
+                radius: 2000
             });
         }
     }
