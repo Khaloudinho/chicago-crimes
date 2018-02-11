@@ -41,7 +41,7 @@
 
 <div id="map"></div>
 <script>
-    var labels = [], values = [];
+    var xCoords = [], yCoords = [];
 
     $(document).ready(function () {
         $.get('../results/question3', function (data) {
@@ -49,9 +49,10 @@
 
             for (var i = 0; i < data.length; i++) {
                 var line = data[i].replace(/\n/ig, '');
-                var index = line.split("[")[0], coord = line.split("[")[1];
-                if (index != null && index !== '') labels.push(index.substring(0, index.length - 1));
-                if (coord != null && coord !== '') values.push(coord.substring(0, coord.lastIndexOf("]") - 1));
+                var x = line.split(", ")[0];
+                var y = line.split(", ")[1];
+                if (x != null && x !== '') xCoords.push(x.substring(1, line.split(", ")[0].length));
+                if (y != null && y !== '') yCoords.push(y.substring(0, line.split(", ")[1].indexOf("]") - 1));
             }
         });
     });
@@ -64,9 +65,9 @@
             center: {lat: 41.881832, lng: -87.623177}
         });
 
-        for (var i = 0; i < labels.length; i++) {
+        for (var i = 0; i < xCoords.length; i++) {
 
-            var pos = new google.maps.LatLng(values[i].split(", ")[0], values[i].split(", ")[1]);
+            var pos = new google.maps.LatLng(xCoords[i], yCoords[i]);
 
             var color = '';
 
