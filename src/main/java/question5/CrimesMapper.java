@@ -12,12 +12,19 @@ public class CrimesMapper extends Mapper<LongWritable, Text, Text, IntWritable> 
 
         String[] tokens = value.toString().split(",");
 
+        // We get the month number of each crime
+
         String monthNumber = tokens[2].substring(0, 2);
+
+        // We store all the months in a table
 
         String[] months = {"JANUARY", "FEBRUARY", "MARCH", "APRIL", "MAY", "JUNE", "JULY", "AUGUST", "SEPTEMBER",
                 "OCTOBER", "NOVEMBER", "DECEMBER"};
 
         int index = 0, number = 1;
+
+        // We create the index for each month number in order to match it witch the table created before
+        // Ex : for the month number 3 it corresponds to March, so we subtract 1 then we have the index we need to get the month name
 
         if (monthNumber.matches("[0-9]{2}")) index = Integer.parseInt(monthNumber.trim()) - 1;
 

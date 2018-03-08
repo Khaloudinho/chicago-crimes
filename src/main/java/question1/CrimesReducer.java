@@ -22,6 +22,8 @@ public class CrimesReducer extends Reducer<Text, IntWritable, Text, IntWritable>
             sum += val.get();
         }
 
+        // We add the output in a HashMap in order to sort it afterwards
+
         getMap().put(key.toString(), sum);
     }
 
@@ -29,17 +31,25 @@ public class CrimesReducer extends Reducer<Text, IntWritable, Text, IntWritable>
     protected void cleanup(Context context) throws IOException, InterruptedException {
         map = sortByValue(getMap());
 
+        // We sort it in reverse order
+
         for (Map.Entry<String, Integer> entry : getMap().entrySet()) {
             context.write(new Text(entry.getKey()), new IntWritable(entry.getValue()));
         }
     }
 
     private Map<String, Integer> getMap() {
+
+        // If Map does not exist we create one otherwise we just use the existing one
+
         if (null == map) map = new HashMap<>();
         return map;
     }
 
     private static <K, V extends Comparable<? super V>> Map<K, V> sortByValue(Map<K, V> map) {
+
+        // Function to order a Map in reverse order
+
         return map.entrySet().stream().sorted(Map.Entry.comparingByValue(Collections.reverseOrder()))
                 .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (e1, e2) -> e1, LinkedHashMap::new));
     }

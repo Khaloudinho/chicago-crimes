@@ -22,6 +22,8 @@ public class CrimesReducer extends Reducer<Text, IntWritable, Text, IntWritable>
             sum += value.get();
         }
 
+        // We sum all the crimes for one given month
+
         getMap().put(key.toString(), sum);
     }
 
@@ -30,6 +32,8 @@ public class CrimesReducer extends Reducer<Text, IntWritable, Text, IntWritable>
         map = sortByValue(getMap());
 
         int counter = 0;
+
+        // We sort in reverse order and then we only get the 3 first months of the Map because we only need these
 
         for (Map.Entry<String, Integer> entry : getMap().entrySet()) {
             if (counter++ == 3) break;

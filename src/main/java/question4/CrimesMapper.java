@@ -14,7 +14,11 @@ public class CrimesMapper extends Mapper<LongWritable, Text, Text, IntWritable> 
 
         String regexLocation = "^-?\\d+\\.\\d+$", regexBoolean = "true|false";
 
+        // We get latitude and longitude of each crime
+
         String latitude = tokens[tokens.length - 4].trim(), longitude = tokens[tokens.length - 3].trim();
+
+        // We get the boolean which means if the crime has been elucidated or not
 
         String arrest = tokens[tokens.length - 15].toLowerCase().trim();
 

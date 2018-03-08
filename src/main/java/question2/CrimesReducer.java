@@ -22,12 +22,16 @@ public class CrimesReducer extends Reducer<Text, IntWritable, Text, IntWritable>
             sum += value.get();
         }
 
+        // Fill the map in order to sort it later
+
         getMap().put(key.toString(), sum);
     }
 
     @Override
     protected void cleanup(Context context) throws IOException, InterruptedException {
         map = sortByValue(getMap());
+
+        // Copying map into the context
 
         for (Map.Entry<String, Integer> entry : getMap().entrySet()) {
             context.write(new Text(entry.getKey()), new IntWritable(entry.getValue()));

@@ -12,7 +12,11 @@ public class CrimesMapper extends Mapper<LongWritable, Text, Text, IntWritable> 
 
         String[] tokens = value.toString().split(",");
 
+        // We get all the crimes categories
+
         String crime = tokens[5].toUpperCase().trim();
+
+        // Each time we loop on a crime we increment the associated value
 
         int number = 1;
 

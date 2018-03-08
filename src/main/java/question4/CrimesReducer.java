@@ -15,6 +15,9 @@ public class CrimesReducer extends Reducer<Text, IntWritable, Text, IntWritable>
     public void reduce(Text key, Iterable<IntWritable> values, Context context) throws IOException, InterruptedException {
         int sum = 0;
 
+        // Iterate through the crimes in order to not have the same location twice
+        // Otherwise the dataset would be really bigger
+
         for (IntWritable value : values) {
             sum += value.get();
         }

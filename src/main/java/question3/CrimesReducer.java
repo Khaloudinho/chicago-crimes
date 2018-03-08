@@ -25,14 +25,20 @@ public class CrimesReducer extends Reducer<Text, IntWritable, Text, IntWritable>
         for (IntWritable value : values) {
             sum += value.get();
 
+            // 1st step for centering the clusters
+
             String[] temp = key.toString().split(", ");
             mx += Double.parseDouble(temp[0].substring(temp[0].indexOf("[") + 1, temp[0].length()));
             my += Double.parseDouble(temp[1].substring(0, temp[1].indexOf("]") - 1));
             counter++;
         }
 
+        // 2nd step for centring the clusters
+
         mx = mx / counter;
         my = my / counter;
+
+        // We count all the crimes present in one cluster and we write it into a map
 
         if (mx != 0d && my != 0d) centroid = "[" + mx + ", " + my + "]";
         if (!centroid.isEmpty()) getMap().put(centroid, sum);
@@ -44,6 +50,8 @@ public class CrimesReducer extends Reducer<Text, IntWritable, Text, IntWritable>
 
         int counter = 0;
 
+        // We take the 3 most dangerous clusters
+
         for (Map.Entry<String, Integer> entry : getMap().entrySet()) {
             if (counter++ == 3) break;
             context.write(new Text(entry.getKey()), new IntWritable(entry.getValue()));
@@ -52,6 +60,8 @@ public class CrimesReducer extends Reducer<Text, IntWritable, Text, IntWritable>
         map = sortByValueInNormalOrder(getMap());
 
         counter = 0;
+
+        // We take the 3 least dangerous clusters
 
         for (Map.Entry<String, Integer> entry : getMap().entrySet()) {
             if (counter++ == 3) break;
