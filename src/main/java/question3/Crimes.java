@@ -9,10 +9,12 @@ import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;
 import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
 
 import java.io.IOException;
+import java.util.Date;
 
 public class Crimes {
 
     public static void main(String[] args) throws IOException, ClassNotFoundException, InterruptedException {
+
         if (args.length != 3) {
             System.err.println("Usage: question3.Crimes <input path> <output path> <clusters number>");
             System.exit(-1);

@@ -13,7 +13,6 @@ import java.util.Random;
 public class CrimesMapper extends Mapper<LongWritable, Text, Text, IntWritable> {
 
     private List<Double[]> locations = new ArrayList<>(), centroids = new ArrayList<>();
-    private Random rand = new Random();
 
     public void map(LongWritable key, Text value, Context context) {
 
@@ -36,9 +35,11 @@ public class CrimesMapper extends Mapper<LongWritable, Text, Text, IntWritable> 
     @Override
     protected void cleanup(Context context) throws IOException, InterruptedException {
 
+        int clustersNumber = Integer.parseInt(context.getConfiguration().get(Constants.CENTROID_NUMBER_ARG));
+
         if (centroids.isEmpty()) {
-            for (int j = 0; j < Integer.parseInt(context.getConfiguration().get(Constants.CENTROID_NUMBER_ARG)); j++) {
-                centroids.add(locations.get(rand.nextInt(locations.size())));
+            for (int j = 0; j < clustersNumber; j++) {
+                centroids.add(locations.get(j));
             }
         }
 
